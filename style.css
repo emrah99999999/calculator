@@ -1,20 +1,41 @@
+/* تم پیش‌فرض (تاریک) */
 :root{
-  --bg:#0f172a;        /* زمینه */
-  --panel:#111827;     /* پنل */
-  --btn:#1f2937;       /* دکمه معمولی */
-  --btn-op:#0ea5e9;    /* دکمه عملگر */
-  --btn-eq:#22c55e;    /* دکمه مساوی */
-  --txt:#e5e7eb;       /* متن روشن */
-  --muted:#94a3b8;     /* متن راهنما */
-  --focus:#f59e0b;     /* فوکوس */
+  --bg:#0f172a;
+  --panel:#111827;
+  --btn:#1f2937;
+  --btn-op:#0ea5e9;
+  --btn-eq:#22c55e;
+  --txt:#e5e7eb;
+  --muted:#94a3b8;
+  --focus:#f59e0b;
+  --border:#1f2937;
+  --danger:#ef4444;
 }
 
-* { box-sizing: border-box; }
+/* تم روشن */
+:root[data-theme="light"]{
+  --bg:#f5f7fb;
+  --panel:#ffffff;
+  --btn:#e8ecf3;
+  --btn-op:#0284c7;
+  --btn-eq:#16a34a;
+  --txt:#0f172a;
+  --muted:#475569;
+  --focus:#b45309;
+  --border:#dbe2ea;
+  --danger:#dc2626;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  height:100%;
+}
 
 body{
   margin:0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-  background: linear-gradient(135deg,#0b1220,#0f172a 40%, #0b1220);
+  background: var(--bg);
   color: var(--txt);
   min-height: 100dvh;
   display: grid;
@@ -22,12 +43,13 @@ body{
 }
 
 .app{
-  width: min(92vw, 380px);
+  width: min(92vw, 400px);
   background: var(--panel);
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.3), inset 0 0 0 1px rgba(255,255,255,.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.03);
+  position: relative;
 }
 
 .title{
@@ -35,11 +57,12 @@ body{
   font-size: 18px;
   color: var(--muted);
   text-align: center;
-  letter-spacing: .5px;
+  letter-spacing: .3px;
 }
 
 .display-wrap{
   margin: 8px 0 14px;
+  position: relative;
 }
 
 .display{
@@ -47,16 +70,33 @@ body{
   padding: 14px 12px;
   font-size: 28px;
   text-align: left;
-  background: #0b1220;
+  background: color-mix(in oklab, var(--panel), black 8%);
   color: var(--txt);
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border);
   border-radius: 10px;
+}
+
+.memory-indicator{
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  translate: 0 -50%;
+  font-weight: 700;
+  color: var(--btn-op);
+  opacity: 0;
+  transition: opacity .2s ease;
 }
 
 .keys{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+  margin-bottom: 8px;
+}
+
+.mem-row{
+  margin-top: 6px;
+  margin-bottom: 8px;
 }
 
 .btn{
@@ -68,15 +108,17 @@ body{
   color: var(--txt);
   background: var(--btn);
   cursor: pointer;
-  transition: transform .04s ease, background .2s ease, box-shadow .2s ease;
-  box-shadow: 0 2px 0 rgba(0,0,0,.4);
+  transition: transform .06s ease, background .2s ease, box-shadow .2s ease, opacity .2s ease;
+  box-shadow: 0 2px 0 rgba(0,0,0,.35);
+  position: relative;
+  overflow: hidden;
 }
 
-.btn:hover{ background: #263242; }
-.btn:active{ transform: translateY(1px); }
+.btn:hover{ background: color-mix(in oklab, var(--btn), white 8%); }
+.btn:active{ transform: translateY(1px) scale(0.995); }
 
-.btn.op{ background: #0b4a66; }
-.btn.op:hover{ background: #0d5d82; }
+.btn.op{ background: color-mix(in oklab, var(--btn-op), black 35%); }
+.btn.op:hover{ background: color-mix(in oklab, var(--btn-op), black 25%); }
 
 .btn.equal{
   background: var(--btn-eq);
@@ -84,21 +126,103 @@ body{
   font-weight: 700;
 }
 
-.btn.action{ background: #2a2f3a; }
-.btn.action:hover{ background: #323846; }
+.btn.action{ background: color-mix(in oklab, var(--btn), black 10%); }
+.btn.action:hover{ background: color-mix(in oklab, var(--btn), white 5%); }
+
+.btn.mem{ background: color-mix(in oklab, var(--btn), white 3%); }
 
 .zero{ grid-column: span 2; }
 
 .hint{
-  margin: 12px 2px 2px;
+  margin: 10px 2px 2px;
   font-size: 12px;
   color: var(--muted);
   text-align: center;
 }
 
+.theme-toggle{
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  background: var(--panel);
+  color: var(--txt);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,.2);
+}
+
+/* قفل پین */
+.lock{
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  backdrop-filter: blur(4px);
+  background: color-mix(in oklab, var(--bg), black 20%);
+  z-index: 5;
+}
+.lock.hidden{ display: none; }
+
+.lock-card{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: min(92vw, 360px);
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+.lock-desc{ color: var(--muted); margin: 4px 0 10px; }
+
+.pin-form{
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.pin-input{
+  padding: 12px 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--panel), black 8%);
+  color: var(--txt);
+  letter-spacing: 6px;
+  text-align: center;
+}
+
+.btn.primary{
+  background: var(--btn-eq);
+  color: #06320f;
+  font-weight: 700;
+}
+
+.btn.ghost{
+  background: transparent;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+}
+
 /* دسترسی‌پذیری */
 .btn:focus,
-.display:focus{
+.display:focus,
+.pin-input:focus,
+.theme-toggle:focus{
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
+
+/* Ripple افکت ساده با pseudo-element */
+.btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.25), transparent 40%);
+  opacity:0;
+  transition: opacity .4s ease;
+}
+.btn:active::after{ opacity:1; }
