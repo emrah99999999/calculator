@@ -1,0 +1,104 @@
+:root{
+  --bg:#0f172a;        /* زمینه */
+  --panel:#111827;     /* پنل */
+  --btn:#1f2937;       /* دکمه معمولی */
+  --btn-op:#0ea5e9;    /* دکمه عملگر */
+  --btn-eq:#22c55e;    /* دکمه مساوی */
+  --txt:#e5e7eb;       /* متن روشن */
+  --muted:#94a3b8;     /* متن راهنما */
+  --focus:#f59e0b;     /* فوکوس */
+}
+
+* { box-sizing: border-box; }
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+  background: linear-gradient(135deg,#0b1220,#0f172a 40%, #0b1220);
+  color: var(--txt);
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+}
+
+.app{
+  width: min(92vw, 380px);
+  background: var(--panel);
+  border: 1px solid #1f2937;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.3), inset 0 0 0 1px rgba(255,255,255,.03);
+}
+
+.title{
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: .5px;
+}
+
+.display-wrap{
+  margin: 8px 0 14px;
+}
+
+.display{
+  width: 100%;
+  padding: 14px 12px;
+  font-size: 28px;
+  text-align: left;
+  background: #0b1220;
+  color: var(--txt);
+  border: 1px solid #1f2937;
+  border-radius: 10px;
+}
+
+.keys{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.btn{
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 0;
+  font-size: 18px;
+  color: var(--txt);
+  background: var(--btn);
+  cursor: pointer;
+  transition: transform .04s ease, background .2s ease, box-shadow .2s ease;
+  box-shadow: 0 2px 0 rgba(0,0,0,.4);
+}
+
+.btn:hover{ background: #263242; }
+.btn:active{ transform: translateY(1px); }
+
+.btn.op{ background: #0b4a66; }
+.btn.op:hover{ background: #0d5d82; }
+
+.btn.equal{
+  background: var(--btn-eq);
+  color: #06320f;
+  font-weight: 700;
+}
+
+.btn.action{ background: #2a2f3a; }
+.btn.action:hover{ background: #323846; }
+
+.zero{ grid-column: span 2; }
+
+.hint{
+  margin: 12px 2px 2px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* دسترسی‌پذیری */
+.btn:focus,
+.display:focus{
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
