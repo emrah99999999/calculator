@@ -1,53 +1,55 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl" data-theme="auto">
+<html lang="fa" dir="rtl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ماشین‌حساب تحت وب</title>
+  <meta name="color-scheme" content="dark">
   <link rel="stylesheet" href="style.css" />
-  <meta name="color-scheme" content="light dark">
 </head>
 <body>
-  <!-- قفل پین -->
-  <div id="lock-screen" class="lock hidden" aria-hidden="true">
+  <!-- لایهٔ قفل ورود -->
+  <div id="lock-screen" class="lock" aria-hidden="false">
     <div class="lock-card" role="dialog" aria-modal="true" aria-labelledby="lock-title">
       <h2 id="lock-title">ورود</h2>
-      <p class="lock-desc">برای ورود، پین چهاررقمی را وارد کن.</p>
+      <p class="lock-desc">لطفاً رمز عبور را وارد کن.</p>
       <form id="pin-form" class="pin-form" autocomplete="off">
-        <input id="pin-input" class="pin-input" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="●●●●" aria-label="پین چهاررقمی" required />
-        <button type="submit" class="btn primary">بازکردن</button>
+        <input id="pin-input" class="pin-input" type="password" inputmode="numeric"
+               pattern="[0-9]*" maxlength="12" placeholder="●●●●" aria-label="رمز عبور" required />
+        <button type="submit" class="btn primary">ورود</button>
         <button type="button" id="pin-reset" class="btn ghost">پاک‌کردن</button>
       </form>
-      <p class="hint small">پین پیش‌فرض: 2580 (فقط یک قفل سادهٔ سمت کاربر است.)</p>
+      <p class="hint small">توجه: این یک قفل سمت کاربر است و برای محافظت واقعی مناسب نیست.</p>
     </div>
   </div>
 
-  <!-- سوییچ تم -->
-  <button id="theme-toggle" class="theme-toggle" aria-label="تغییر حالت روشن/تاریک" aria-pressed="false">🌙/☀️</button>
+  <!-- بنر تصویر -->
+  <header class="hero" aria-label="بنر تصویر">
+    <picture>
+      <!-- اگر نسخه‌های دیگر داری، اینجا srcset اضافه کن -->
+      <source srcset="assets/hero.webp" type="image/webp" />
+      <img id="hero-img" src="assets/hero.webp" alt="تصویر بالای صفحه" loading="eager" />
+    </picture>
+    <div class="hero-overlay"></div>
+  </header>
 
-  <main class="app" aria-label="ماشین‌حساب تحت وب">
+  <!-- اپ ماشین‌حساب -->
+  <main class="app" aria-label="ماشین‌حساب">
     <h1 class="title">ماشین‌حساب</h1>
 
     <div class="display-wrap">
-      <div class="memory-indicator" aria-hidden="true" title="حافظه">M</div>
-      <input id="display" class="display" type="text" value="0" readonly aria-live="polite" aria-label="نمایشگر نتیجه" />
+      <input id="display" class="display" type="text" value="0"
+             readonly aria-live="polite" aria-label="نمایشگر نتیجه" />
     </div>
 
-    <!-- ردیف حافظه -->
-    <div class="keys mem-row" role="group" aria-label="کلیدهای حافظه">
-      <button class="btn mem" data-mem="mc" aria-label="پاک کردن حافظه">MC</button>
-      <button class="btn mem" data-mem="mr" aria-label="خواندن حافظه">MR</button>
-      <button class="btn mem" data-mem="mplus" aria-label="افزودن به حافظه">M+</button>
-      <button class="btn mem" data-mem="mminus" aria-label="کسر از حافظه">M−</button>
-    </div>
-
-    <!-- کلیدهای اصلی -->
-    <div class="keys" role="group" aria-label="کلیدها">
+    <div class="keys top" role="group" aria-label="کلیدهای کنترلی">
       <button class="btn action" data-action="clear" aria-label="پاک‌کردن">C</button>
       <button class="btn action" data-action="percent" aria-label="درصد">%</button>
-      <button class="btn action" data-action="plusminus" aria-label="تغییر علامت">±</button>
+      <button class="btn action" data-action="backspace" aria-label="حذف یک رقم">⌫</button>
       <button class="btn op" data-op="divide" aria-label="تقسیم">÷</button>
+    </div>
 
+    <div class="keys" role="group" aria-label="کلیدهای عددی و عملگرها">
       <button class="btn num" data-num="7">7</button>
       <button class="btn num" data-num="8">8</button>
       <button class="btn num" data-num="9">9</button>
@@ -68,7 +70,12 @@
       <button class="btn equal" data-action="equal" aria-label="برابر">=</button>
     </div>
 
-    <p class="hint">می‌تونی با کیبورد تایپ کنی: 0–9، + − × ÷ / * ، Enter = ، Backspace ⌫ ، % ، و Alt+P برای ±</p>
+    <p class="hint">
+      میانبرها: 0–9، .، + − × ÷ (/ * )، Enter (=)، Backspace ⌫ ، %
+    </p>
+
+    <!-- کانتینر افکت‌ها -->
+    <div id="fx-layer" aria-hidden="true"></div>
   </main>
 
   <script src="script.js"></script>
