@@ -1,54 +1,68 @@
-/* تم پیش‌فرض (تاریک) */
+/* تم تاریک ثابت */
 :root{
   --bg:#0f172a;
   --panel:#111827;
-  --btn:#1f2937;
-  --btn-op:#0ea5e9;
-  --btn-eq:#22c55e;
+  --panel-2:#0b1220;
   --txt:#e5e7eb;
   --muted:#94a3b8;
-  --focus:#f59e0b;
   --border:#1f2937;
-  --danger:#ef4444;
-}
+  --focus:#f59e0b;
 
-/* تم روشن */
-:root[data-theme="light"]{
-  --bg:#f5f7fb;
-  --panel:#ffffff;
-  --btn:#e8ecf3;
-  --btn-op:#0284c7;
-  --btn-eq:#16a34a;
-  --txt:#0f172a;
-  --muted:#475569;
-  --focus:#b45309;
-  --border:#dbe2ea;
-  --danger:#dc2626;
+  --btn:#1f2937;
+  --btn-hover:#263242;
+  --op:#0ea5e9;
+  --op-bg:#0b4a66;
+  --eq:#22c55e;
+
+  --danger:#ef4444;
+
+  --shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.03);
 }
 
 *{ box-sizing: border-box; }
-
-html, body{
-  height:100%;
-}
-
+html, body { height: 100%; }
 body{
   margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-  background: var(--bg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+  background: radial-gradient(1000px 1000px at 10% -10%, #101b34 0%, #0f172a 40%, #0a1020 100%);
   color: var(--txt);
   min-height: 100dvh;
   display: grid;
-  place-items: center;
+  place-items: start center;
+  padding-bottom: 40px;
 }
 
+/* بنر تصویر */
+.hero{
+  width: 100%;
+  max-width: 980px;
+  height: clamp(160px, 28vh, 240px);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hero picture, .hero img { width: 100%; height: 100%; display: block; }
+.hero img{
+  object-fit: cover;
+  filter: saturate(1.05) contrast(1.05) brightness(0.92);
+  transform: scale(1.02);
+}
+.hero-overlay{
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.35));
+  pointer-events: none;
+}
+
+/* کارت اپ */
 .app{
-  width: min(92vw, 400px);
+  width: min(92vw, 980px);
+  max-width: 520px;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.03);
+  box-shadow: var(--shadow);
+  margin-top: -56px; /* کمی اورلپ روی بنر */
   position: relative;
 }
 
@@ -57,79 +71,65 @@ body{
   font-size: 18px;
   color: var(--muted);
   text-align: center;
-  letter-spacing: .3px;
 }
 
-.display-wrap{
-  margin: 8px 0 14px;
-  position: relative;
-}
-
+.display-wrap{ margin: 8px 0 14px; }
 .display{
   width: 100%;
   padding: 14px 12px;
   font-size: 28px;
   text-align: left;
-  background: color-mix(in oklab, var(--panel), black 8%);
+  background: var(--panel-2);
   color: var(--txt);
   border: 1px solid var(--border);
   border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
 }
 
-.memory-indicator{
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  translate: 0 -50%;
-  font-weight: 700;
-  color: var(--btn-op);
-  opacity: 0;
-  transition: opacity .2s ease;
-}
-
+/* شبکه کلیدها */
 .keys{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin-bottom: 8px;
 }
-
-.mem-row{
-  margin-top: 6px;
-  margin-bottom: 8px;
-}
+.keys.top{ margin-top: 6px; }
 
 .btn{
   appearance: none;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 14px 0;
   font-size: 18px;
   color: var(--txt);
   background: var(--btn);
   cursor: pointer;
-  transition: transform .06s ease, background .2s ease, box-shadow .2s ease, opacity .2s ease;
+  transition: transform .08s ease, background .2s ease, box-shadow .2s ease, opacity .2s ease;
   box-shadow: 0 2px 0 rgba(0,0,0,.35);
   position: relative;
   overflow: hidden;
 }
+.btn:hover{ background: var(--btn-hover); }
+.btn:active{ transform: translateY(1px) scale(0.992); }
 
-.btn:hover{ background: color-mix(in oklab, var(--btn), white 8%); }
-.btn:active{ transform: translateY(1px) scale(0.995); }
-
-.btn.op{ background: color-mix(in oklab, var(--btn-op), black 35%); }
-.btn.op:hover{ background: color-mix(in oklab, var(--btn-op), black 25%); }
+.btn.op{
+  background: color-mix(in oklab, var(--op-bg), black 0%);
+}
+.btn.op:hover{ background: color-mix(in oklab, var(--op-bg), white 6%); }
+.btn.op.active{
+  outline: 2px solid color-mix(in oklab, var(--op), white 20%);
+  box-shadow: 0 0 18px rgba(14,165,233,.35) inset;
+}
 
 .btn.equal{
-  background: var(--btn-eq);
+  background: var(--eq);
   color: #06320f;
   font-weight: 700;
 }
 
-.btn.action{ background: color-mix(in oklab, var(--btn), black 10%); }
-.btn.action:hover{ background: color-mix(in oklab, var(--btn), white 5%); }
-
-.btn.mem{ background: color-mix(in oklab, var(--btn), white 3%); }
+.btn.action{
+  background: color-mix(in oklab, var(--btn), black 8%);
+}
 
 .zero{ grid-column: span 2; }
 
@@ -140,89 +140,90 @@ body{
   text-align: center;
 }
 
-.theme-toggle{
-  position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 3;
-  background: var(--panel);
-  color: var(--txt);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 8px 10px;
-  cursor: pointer;
-  box-shadow: 0 2px 12px rgba(0,0,0,.2);
+/* Ripple افکت: موقعیت از --x و --y می‌آید */
+.btn::after{
+  content:"";
+  position:absolute; inset:0;
+  background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.25), transparent 40%);
+  opacity:0; transition: opacity .45s ease;
+}
+.btn:active::after{ opacity:1; }
+
+/* هایلایت نمایشگر بعد از مساوی */
+.display.highlight{
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 0 0 2px rgba(34,197,94,.35);
+  animation: pulse .5s ease;
+}
+@keyframes pulse{
+  0%{ transform: scale(1.0); }
+  50%{ transform: scale(1.01); }
+  100%{ transform: scale(1.0); }
 }
 
-/* قفل پین */
+/* لایه افکت‌ها برای ذره‌افشانی */
+#fx-layer{
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+
+/* قفل ورود */
 .lock{
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
   backdrop-filter: blur(4px);
-  background: color-mix(in oklab, var(--bg), black 20%);
-  z-index: 5;
+  background: color-mix(in oklab, var(--bg), black 25%);
+  z-index: 10;
 }
 .lock.hidden{ display: none; }
-
 .lock-card{
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
   width: min(92vw, 360px);
   padding: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  box-shadow: var(--shadow);
 }
-
 .lock-desc{ color: var(--muted); margin: 4px 0 10px; }
 
 .pin-form{
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 10px;
-  align-items: center;
+  gap: 10px; align-items: center;
 }
-
 .pin-input{
   padding: 12px 10px;
   font-size: 20px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: color-mix(in oklab, var(--panel), black 8%);
+  background: var(--panel-2);
   color: var(--txt);
-  letter-spacing: 6px;
-  text-align: center;
+  letter-spacing: 6px; text-align: center;
 }
-
+.pin-input.shake{ animation: shake .3s ease; border-color: var(--danger); }
+@keyframes shake{
+  0%,100%{ transform: translateX(0); }
+  25%{ transform: translateX(-6px); }
+  75%{ transform: translateX(6px); }
+}
 .btn.primary{
-  background: var(--btn-eq);
-  color: #06320f;
-  font-weight: 700;
+  background: var(--eq);
+  color: #06320f; font-weight: 700;
 }
-
 .btn.ghost{
-  background: transparent;
-  color: var(--muted);
+  background: transparent; color: var(--muted);
   border: 1px dashed var(--border);
 }
 
 /* دسترسی‌پذیری */
 .btn:focus,
 .display:focus,
-.pin-input:focus,
-.theme-toggle:focus{
+.pin-input:focus{
   outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
-/* Ripple افکت ساده با pseudo-element */
-.btn::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.25), transparent 40%);
-  opacity:0;
-  transition: opacity .4s ease;
+/* کاهش تحرک */
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
 }
-.btn:active::after{ opacity:1; }
