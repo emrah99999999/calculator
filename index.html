@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ماشین‌حساب ساده</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app" aria-label="ماشین‌حساب تحت وب">
+    <h1 class="title">ماشین‌حساب</h1>
+
+    <div class="display-wrap">
+      <input
+        id="display"
+        class="display"
+        type="text"
+        value="0"
+        readonly
+        aria-live="polite"
+        aria-label="نمایشگر نتیجه"
+      />
+    </div>
+
+    <div class="keys" role="group" aria-label="کلیدها">
+      <button class="btn action" data-action="clear" aria-label="پاک‌کردن">C</button>
+      <button class="btn action" data-action="percent" aria-label="درصد">%</button>
+      <button class="btn action" data-action="backspace" aria-label="حذف یک کاراکتر">⌫</button>
+      <button class="btn op" data-op="divide" aria-label="تقسیم">÷</button>
+
+      <button class="btn num" data-num="7">7</button>
+      <button class="btn num" data-num="8">8</button>
+      <button class="btn num" data-num="9">9</button>
+      <button class="btn op" data-op="multiply" aria-label="ضرب">×</button>
+
+      <button class="btn num" data-num="4">4</button>
+      <button class="btn num" data-num="5">5</button>
+      <button class="btn num" data-num="6">6</button>
+      <button class="btn op" data-op="minus" aria-label="منها">−</button>
+
+      <button class="btn num" data-num="1">1</button>
+      <button class="btn num" data-num="2">2</button>
+      <button class="btn num" data-num="3">3</button>
+      <button class="btn op" data-op="plus" aria-label="جمع">+</button>
+
+      <button class="btn num zero" data-num="0">0</button>
+      <button class="btn action" data-action="dot" aria-label="ممیز">.</button>
+      <button class="btn equal" data-action="equal" aria-label="برابر">=</button>
+    </div>
+
+    <p class="hint">می‌تونی با کیبورد هم تایپ کنی: 0–9، + − × ÷ / * ، Enter = ، Backspace ⌫</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
